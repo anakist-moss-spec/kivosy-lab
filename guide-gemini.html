@@ -1,76 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q7K55RZKNW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Q7K55RZKNW');
+    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TP46CVMP');</script>
+    
     <meta charset="UTF-8">
-    <title>KIVOSY | API Guide Under Construction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>KIVOSY | Gemini API Guide</title>
+    
+    <link rel="icon" href="./img/favicon.png" type="image/png">
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background: #f0f2f5; color: #1f1f1f; text-align: center; margin: 0; }
         .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 450px; }
         h1 { color: #4a80f1; margin-bottom: 15px; font-size: 24px; }
         p { line-height: 1.6; color: #444746; margin: 10px 0; }
         .badge { background: #eef3ff; color: #4a80f1; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: bold; margin-bottom: 20px; display: inline-block; letter-spacing: 1px; }
-
-        /* Elastic Button Effect */
-        .back-btn {
-            cursor: pointer; 
-            background: #4a80f1; 
-            color: white; 
-            border: none; 
-            padding: 12px 30px; 
-            border-radius: 8px; 
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.1s ease-in-out;
-            box-shadow: 0 2px 4px rgba(11, 87, 208, 0.2);
-            margin-top: 20px;
-        }
-
-        .back-btn:hover {
-            background: #0842a0;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3);
-        }
-
-        .back-btn:active {
-            transform: scale(0.92) !important;
-            filter: brightness(0.8);
-        }
+        .back-btn { cursor: pointer; background: #4a80f1; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 15px; transition: all 0.1s ease-in-out; box-shadow: 0 2px 4px rgba(11, 87, 208, 0.2); margin-top: 20px; }
+        .back-btn:hover { background: #0842a0; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(11, 87, 208, 0.3); }
+        .back-btn:active { transform: scale(0.92) !important; filter: brightness(0.8); }
     </style>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5981094525589755" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="card">
         <div class="badge">COMING SOON</div>
         <h1>Our Lead Engineer is Cooking! 🛠️</h1>
-        
-        <p style="color: #4a80f1; font-weight: bold; font-size: 1.1em; margin-bottom: 20px;">
-            Gemini Setup Guide
-        </p>
-        
-        <p>We are meticulously crafting a</p>
-        <p><strong>[Step-by-Step Visual Guide]</strong></p>
-        <p>to help you get your API key in seconds.</p>
-        
+        <p style="color: #4a80f1; font-weight: bold; font-size: 1.1em; margin-bottom: 20px;">Gemini Setup Guide</p>
+        <p>We are meticulously crafting a <strong>[Step-by-Step Visual Guide]</strong> to help you get your API key in seconds.</p>
         <br>
-        
-        <p style="font-size: 0.85em; color: #70757a; margin: 0;">Hang tight!</p>
-        <p style="font-size: 0.85em; color: #70757a; margin: 0;">
-            A masterpiece is on its way to simplify your experience.
-        </p>
-        
+        <p style="font-size: 0.85em; color: #70757a; margin: 0;">Hang tight! A masterpiece is on its way.</p>
         <br>
         <button class="back-btn" onclick="goBackOrClose()">Go Back</button>
     </div>
 
-        <script>
-            function goBackOrClose() {
-                // If there's a history, go back. Otherwise, redirect to index.html (Safest Method)
-                if (window.history.length > 1) {
-                    window.history.back();
-                } else {
-                    window.location.href = 'index.html';
-                }
-            }
-        </script>
-    </div>
+    <script>
+        function goBackOrClose() {
+            if (window.history.length > 1) { window.history.back(); } 
+            else { window.location.href = 'index.html'; }
+        }
+    </script>
 </body>
 </html>
