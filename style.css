@@ -1,0 +1,1895 @@
+/*------------------------------
+/*    SOLID CLEAN UI - No Glassmorphism
+/*    Blue-White Solid Background
+/*------------------------------*/
+
+/*------------------------------
+/* 1. Root & Base Variables
+/*------------------------------*/
+:root {
+/* 배경색 디테일 (제미나이 에디션) */
+  --bg-main: #ffffff;         /* 본문은 순백색 */
+  --bg-sidebar: #f8fafd;      /* 사이드바: 제미나이의 아주 연한 블루 그레이 */
+  --bg-content: #ffffff;            /* 컨텐츠 영역 - 순백색 */
+  --bg-input: #ffffff;              /* 입력창 - 순백색 */
+  --border-light: #dee1e6;          /* 테두리 - 연한 회색 */
+
+  /* 포인트 블루 (구글 블루) */
+  --accent-primary: #0d6efd;  /* 제미나이 버튼의 그 파란색 */
+  --accent-secondary: rgba(13, 110, 253, 0.1); /* 연한 배경용 */
+  
+  /* 제미나이 스타일 다크 그레이 */
+  --text-primary: #343a40;    /* 메인 텍스트: 완전 검정보다 부드러운 회색 */
+  --text-secondary: #606770;  /* 보조 텍스트: 제미나이 특유의 차분한 회색 */
+  --text-light: #dddfe2;      /* 더 연한 텍스트 */
+  --success: #28a745;
+  --error: #dc3545;
+  
+  /* 고정 높이 */
+  --header-height: 70px;
+  --input-height: 80px;
+  --footer-height: 60px;
+  --sidebar-width: 320px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*------------------------------
+/* 2. Body - Solid Background
+/*------------------------------*/
+body {
+  margin: 0;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/*------------------------------
+/* 3. App Wrapper - Flex Column
+/*------------------------------*/
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/*------------------------------
+/* 4. Header - Solid, Fixed Height
+/*------------------------------*/
+.header {
+  height: var(--header-height);
+  background: var(--bg-sidebar);
+  border-bottom: 2px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sidebar-toggle {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-primary);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.sidebar-toggle:hover {
+  background: var(--accent-secondary);
+}
+
+.brand-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-logo {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #555555 !important; /* 완전 검정 탈피 */
+  text-decoration: none;
+}
+
+.brand-sub {
+  font-weight: 300;
+  color: var(--accent-primary);
+  margin-left: 2px;
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.byok-badge {
+    background: var(--accent-secondary);
+    color: var(--accent-primary);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    
+    /* 1. 은은한 그림자 추가 (노란 버튼과 톤 맞추기) */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); 
+    
+    /* 2. 테두리 통합 (기존 border-light 대신 살짝 투명한 흰색으로 입체감) */
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    
+    /* 3. 부드러운 변화 효과 */
+    transition: all 0.3s ease;
+}
+
+/* ✨ 마우스 올렸을 때(Hover) 리액션 */
+.byok-badge:hover {
+    background: var(--bg-card); 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); 
+    transform: translateY(-1px); 
+}
+
+/*------------------------------
+/* 5. Main Layout - Flex Row (최종 수정본)
+/*------------------------------*/
+.main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+
+  /* 🎯 핵심: 사이드바가 fixed로 떴으니, 그만큼 공간을 비워줍니다 */
+  margin-left: var(--sidebar-width); 
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 🎯 3. [추가] 사이드바가 닫혔을 때 메인 화면을 왼쪽으로 땡기기 */
+/* body에 'sidebar-closed' 클래스가 붙으면 발동합니다 */
+body.sidebar-closed .main-layout {
+    margin-left: 0 !important;
+}
+
+
+/*------------------------------
+/* 6. Sidebar - Solid, Fixed Width
+/*------------------------------*/
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-sidebar);
+    
+    /* 🎯 해결 1: 위치를 헤더 바로 아래로 정밀 고정 */
+    position: fixed;
+    top: 69px;    /* 헤더 높이가 60px이라면 정확히 그만큼 내림 */
+    left: 0;
+    
+    /* 🎯 해결 2: 높이를 화면에 딱 맞게 (헤더 + 푸터 높이만큼 제외) */
+    /* 푸터 높이가 약 40px이라고 가정할 때 */
+    height: calc(100vh - 60px - 70px); 
+    
+    /* 🎯 해결 3: 레이아웃 선(Border) 겹침 방지 */
+    border-right: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light); /* 헤더와의 경계선 추가 */
+    
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 90; /* 헤더(보통 100)보다는 낮게, 콘텐츠보다는 높게 */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.collapsed {
+  transform: translateX(calc(-1 * var(--sidebar-width)));
+}
+
+/*------------------------------
+/* 6-1. 햄버거버튼 Sidebar접을때 화살표로 표시
+/*------------------------------*/
+
+/* 🎯 추가: 토글 버튼 아이콘 스타일 */
+#sidebarToggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: all 0.2s ease;
+    user-select: none; /* 텍스트 드래그 방지 */
+}
+
+#sidebarToggle:hover {
+    background: rgba(0, 0, 0, 0.05); /* 살짝 배경색 변화 */
+    border-radius: 8px;
+}
+
+/* 🎯 추가: 메인 레이아웃의 부드러운 이동 */
+.main-layout {
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 사이드바가 닫혔을 때 메인 레이아웃 확장 */
+body.sidebar-closed .main-layout {
+    margin-left: 0 !important;
+}
+
+
+/* 사이드바 내부 스크롤 영역 */
+.sidebar-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    /* 스크롤바가 너무 딱 붙지 않게 여유 */
+}
+
+/* 🎯 하단: 세이브 버튼 (바닥 본드 고정) */
+.btn-group-row, 
+.info-link-area {
+    flex-shrink: 0;         /* 절대 안 밀려남 */
+    background: var(--bg-sidebar);
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.info-link-area {
+    flex-shrink: 0;
+    text-align: center;
+    background: var(--bg-sidebar);
+
+    /* 🎯 해결 1: 마이너스 마진으로 버튼 쪽으로 끌어올리기 */
+    /* -15px까지 과감하게 줘보세요! 링크가 위로 쑥 올라갑니다 */
+    margin-top: -15px !important; 
+
+    /* 🎯 해결 2: 하단 여백 조절 */
+    /* 이 값을 줄일수록 링크가 전체 사이드바의 맨 바닥으로 내려갑니다 */
+    padding-top: 0;
+    padding-bottom: 20px; 
+}
+
+.info-link-area a {
+    font-size: 11px;
+    display: inline-block; /* 간격 조절이 잘 되도록 설정 */
+    line-height: 1;        /* 줄 높이를 최소화 */
+}
+
+/* 🎯 스크롤바 스타일 (sidebar-content에 적용) */
+.sidebar-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 4px;
+}
+
+/* Sidebar Sections */
+.config-section h3 {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #444746 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-free-header {
+  font-size: 11px;
+  background: var(--accent-secondary);
+  color: var(--accent-primary);
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-weight: 500;
+}
+
+.config-group {
+  margin-bottom: 16px;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  background: white;
+  overflow: hidden;
+}
+
+.config-group summary {
+  padding: 14px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-main);
+  border-bottom: 1px solid transparent;
+}
+
+.config-group[open] summary {
+  background: var(--accent-secondary);
+  border-bottom: 1px solid var(--border-light);
+  color: var(--accent-primary);
+}
+
+.badge-free {
+  font-size: 10px;
+  background: var(--accent-secondary);
+  color: var(--accent-primary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+.group-content {
+  padding: 16px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 12px;
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+/* 1. guide-links 버튼형 레이아웃 */
+.guide-links {
+    display: flex;
+    gap: 6px;             /* 버튼 사이 간격 */
+    margin-top: 8px;
+    align-items: center;
+    flex-wrap: nowrap;    /* 한 줄 유지 */
+}
+
+/* 2. "Get from" 텍스트 */
+.guide-links span {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* 3. 화살표가 붙은 버튼 스타일 링크 */
+.guide-links a {
+    display: inline-flex;
+    align-items: center;
+    background: var(--accent-secondary); /* 연한 블루 배경 */
+    color: var(--accent-primary) !important;
+    padding: 3px 10px;    /* 버튼 느낌 나게 패딩 조절 */
+    border-radius: 6px;   /* 둥근 사각형 */
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none !important;
+    border: 1px solid rgba(74, 128, 241, 0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* 쫀득한 움직임 */
+    white-space: nowrap;
+}
+
+/* 4. 마우스 올리면 색상 반전 (손맛 추가) */
+.guide-links a:hover {
+    background: var(--accent-primary);
+    color: #ffffff !important;
+    transform: translateY(-1.5px); /* 살짝 떠오름 */
+    box-shadow: 0 4px 10px rgba(74, 128, 241, 0.2);
+}
+
+/* 5. 잃어버렸던 화살표(↗) 소생술 */
+.guide-links a::after {
+    content: '↗';        /* 공장장님이 찾으시던 그 녀석! */
+    font-size: 10px;
+    margin-left: 3px;
+    font-weight: normal;
+}
+
+.btn-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;           /* 버튼 사이 간격 */
+  padding: 10px 24px; /* 위아래 패딩을 10px 정도로 줄임 */
+  margin: 16px 0;
+}
+
+.btn-primary-sm {
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary-sm:hover {
+  background: #3b6cd9;
+}
+
+.btn-secondary-sm {
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary-sm:hover {
+  background: var(--bg-main);
+}
+
+.security-link {
+  text-align: center;
+  margin: 16px 0;
+}
+
+.security-link a {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.support-section {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--bg-main);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.support-section h4 {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.support-section p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.bmc-img {
+  height: 40px;
+  border-radius: 8px;
+}
+
+/*------------------------------
+/* 7. Content Area - Takes Remaining Space
+/*------------------------------*/
+.content {
+  flex: 1;
+  background: var(--bg-content);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/*------------------------------
+/* 8. Chat Container - Only Scrollable Area
+/*------------------------------*/
+.chat-container {
+    flex: 1;
+    overflow-y: auto;
+    /* 🎯 60px 24px 뒤에 120px를 더 추가하세요! */
+    /* 이게 있어야 히스토리가 입력창 위까지 시원하게 올라옵니다. */
+    padding: 60px 24px 120px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    scroll-behavior: smooth;
+}
+
+/* 🎯 추가: 본문 내 자식 요소들의 폭을 제한해서 가독성 확보 */
+.chat-container > div {
+    width: 100%;
+    max-width: 850px;         /* 너무 옆으로 퍼지지 않게! */
+}
+
+
+.chat-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 4px;
+}
+
+/*------------------------------
+/* 9. Fixed Input Area at Bottom
+/*------------------------------*/
+/* 9. 입력창 영역: 안개벽 분리 공법 */
+.input-fixed-area {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  background: transparent !important; /* 부모는 투명하게! */
+  pointer-events: none !important;
+}
+
+/* 🌫️ 진짜 안개벽 레버 (가상 요소) */
+.input-fixed-area::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  
+  /* ----------------------------------------------------------- */
+  /* 🎛️ [좌우 크기 레버] 여기서 조절하세요! */
+  /* ----------------------------------------------------------- */
+  width: 50%;           /* 👈 좌우 폭 (입력창보다 작게 혹은 크게 마음대로) */
+  
+  /* ----------------------------------------------------------- */
+  /* 🎛️ [상하 크기 레버] 여기서 조절하세요! */
+  /* 내부 여백을 조절해서 안개벽의 '살'을 붙입니다. */
+  /* ----------------------------------------------------------- */
+  height: 100px;        /* 👈 안개벽의 순수 높이 (숫자 키우면 위로 솟음) */
+  padding-top: 5px;    /* 👈 안개벽 윗부분 높이 (숫자가 클수록 위로 길어짐) */
+  padding-bottom: 20px; /* 👈 안개벽 아랫부분 높이 */
+
+
+  /* ✨ 안개 디자인 */
+  background: linear-gradient(
+      to top, 
+      rgba(255, 255, 255, 0.95) 0%, 
+      rgba(255, 255, 255, 0.8) 50%, 
+      transparent 100%
+  ) !important;
+  
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 50px 50px 0 0; /* 위쪽만 둥글게 */
+  z-index: -1;          /* 입력창보다 뒤로 보내기 */
+}
+
+/* 🖱️ 입력창 알맹이는 여전히 클릭 가능 */
+.input-wrapper, .input-actions {
+  pointer-events: auto !important;
+  width: 90%;           /* 👈 입력창 실제 크기는 여기서 별도로 조절! */
+  max-width: 800px;
+}
+
+/* 1. [추가] 실제 글자가 입력되는 textarea 스타일 */
+#main-prompt {
+    flex: 1;           /* 남은 공간 다 차지 */
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;      /* 사용자가 임의로 크기 조절 못하게 */
+    padding: 8px 0;    /* 위아래 살짝 여백 */
+    
+    /* 🚩 핵심: 제미나이 스타일 폰트 & 크기 */
+    font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+    font-size: 15px;   /* 14~15px이 가장 세련되어 보입니다 */
+    line-height: 1.5;
+    color: var(--text-primary); /* #343a40 */
+}
+
+/* 2. [추가] 힌트 텍스트(Placeholder) 스타일 */
+#main-prompt::placeholder {
+    color: #757575;    /* 제미나이 특유의 연한 회색 */
+    font-weight: 400;
+    font-size: 14px;   /* 👈 본문 폰트 크기랑 맞추는 용도 (추천) */
+}
+
+/* 3. [덮어쓰기] 입력창 감싸는 박스 (공장장님 코드 보정) */
+.input-wrapper {
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    gap: 12px;
+    align-items: center; /* 버튼과 텍스트 중앙 정렬 */
+    background: #f0f4f9; 
+    padding: 10px 20px;
+    border-radius: 32px; 
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin: 0 auto;      /* 하단 중앙 정렬 */
+}
+
+/* 4. [덮어쓰기] 클릭했을 때 반응 */
+.input-wrapper:focus-within {
+    background: #ffffff;
+    border-color: var(--accent-primary);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15); /* 살짝 푸른 빛 그림자 */
+}
+
+.input-wrapper textarea {
+  flex: 1;
+  padding: 8px 0;
+  background: transparent; /* 배경은 부모(wrapper) 색상 따라감 */
+  border: none !important;  /* 테두리 제거 */
+  font-size: 15px;
+  resize: none;
+  max-height: 150px;
+  outline: none;
+  color: var(--text-primary);
+}
+
+.input-wrapper textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.send-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-primary) !important;
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-btn:hover {
+  background: #3b6cd9;
+}
+
+/*------------------------------
+/* 9. Input Actions (입력창 아래 4개의 모델구역)
+/*------------------------------*/
+.input-actions {
+    display: flex;
+    justify-content: center;  /* 🎯 중앙 정렬로 변경 */
+    gap: 10px;
+    margin-top: 15px;         /* 입력창과의 여백 */
+    padding: 0;
+}
+
+/* 🎯 모델 배지 (이미 덮어쓰셨다면 유지, 아니면 확인!) */
+.model-badge {
+    font-size: 11px;
+    padding: 6px 14px;
+    background: var(--bg-main);
+    border-radius: 100px;
+    cursor: pointer;
+    border: 1px solid var(--border-light);
+    transition: all 0.2s ease;
+
+    /* 추가된 부분: 평소엔 살짝 흐리게 */
+    opacity: 0.6; 
+    color: var(--text-secondary);
+}
+
+.input-actions::before {
+    content: "Select Mode ❯";
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-right: 5px;
+    font-weight: bold;
+    align-self: center;
+    opacity: 0.8;
+}
+
+/* 🌊 심장박동 애니메이션 정의 */
+@keyframes pulse-highlight {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.4); }
+    70% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(13, 110, 253, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
+}
+
+
+/* 🎯 배지 활성화 상태 - 시인성 극대화 버전 */
+.model-badge.active {
+    background: #0d6efd !important; /* 배경색 강제 지정 */
+    background-color: #0d6efd !important; 
+    color: #ffffff !important; /* 글자색은 무조건 흰색 */
+    opacity: 1 !important; /* 투명도 완전 해제 */
+    
+    /* 저사양 최적화 유지하면서 강조 */
+    animation: none !important;
+    box-shadow: none !important;
+    border: 1px solid #0056b3 !important;
+    font-weight: 700 !important;
+    
+    /* 혹시 모를 필터 효과 제거 */
+    filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* 🖱️ 마우스를 올렸을 때도 색이 유지되도록 방어 */
+.model-badge.active:hover {
+    background-color: #0b5ed7 !important; /* 살짝 더 진한 파란색 */
+    color: #ffffff !important;
+}
+
+
+/* ℹ️ 뱃지 왼쪽에 "모드 전환" 안내 텍스트 추가 (영어) */
+.input-actions::before {
+    content: "Quick Switch:";
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-right: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    align-self: center;
+    text-transform: uppercase; /* 소문자여도 대문자로 멋지게 표시 */
+    opacity: 0.7;
+}
+
+/* 모바일에서 라벨이 너무 길면 숨기기 (공장장님 미디어 쿼리 보강) */
+@media (max-width: 480px) {
+    .quick-label {
+        display: none; /* 모바일은 좁으니 버튼만 보여주기 */
+    }
+    .quick-nav-bar {
+        gap: 4px;
+        padding: 8px;
+    }
+}
+
+
+/* 🎯 2. 마우스를 올렸을 때 */
+.model-badge:hover {
+    opacity: 1; /* 선명해짐 */
+    background: var(--accent-secondary);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+}
+
+/* 🎯 3. 활성화 상태 (불 들어온 신호등! 뿜뿜!) */
+.model-badge.active {
+    opacity: 1 !important; /* 무조건 선명하게 */
+    background: var(--accent-primary) !important; /* 파란색 배경 */
+    color: #ffffff !important; /* 글자는 흰색 */
+    border-color: var(--accent-primary) !important;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3); /* 푸른 광채 효과 */
+    transform: translateY(-1px);
+}
+
+/*------------------------------
+/* 9-1. 대화내보내기, 대화지우기
+/*------------------------------*/
+/* 🎯 신호등과 관리 버튼 사이의 세로 구분선 */
+.action-divider {
+    width: 1px;
+    height: 16px;
+    background-color: var(--border-light);
+    margin: 0 10px;
+    align-self: center;
+}
+
+/* 🎯 관리 버튼들 (심플한 아이콘 형태) */
+.manage-btns {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.manage-btns a {
+    text-decoration: none;
+    font-size: 16px;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+}
+
+.manage-btns a:hover {
+    opacity: 1;
+    background: var(--accent-secondary);
+    transform: translateY(-1px);
+}
+
+.manage-btns a.clear-btn:hover {
+    color: #d93025; /* 쓰레기통은 호버 시 빨간색 */
+}
+
+
+
+/*------------------------------
+/* 10. Tabs & Content Display - 최적화 버전 (중앙 정렬 추가)
+/*------------------------------*/
+.tab-buttons {
+  display: flex;
+  gap: 8px;
+  
+  /* 📌 여기부터 중앙 정렬 레버입니다 */
+  position: absolute;   /* 헤더 내에서 자유 위치 */
+  left: 50%;            /* 화면 50% 지점으로 이동 */
+  transform: translateX(-50%); /* 정확한 배꼽 중앙 맞춤 */
+  white-space: nowrap;  /* 한 줄 유지 */
+  /* -------------------------- */
+
+  margin-bottom: 0;     /* 헤더 안에서는 하단 마진 제거 */
+  padding-bottom: 0;    
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 20px;
+  transition: background-color 0.2s;
+}
+
+.tab-btn:hover {
+  background: rgba(13, 110, 253, 0.1);
+  color: var(--accent-primary);
+}
+
+/* 🎯 공장장님의 '효과 박멸' 액티브 스타일 유지 */
+.tab-btn.active {
+    background: #0d6efd !important;
+    background-color: #3082fd !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    outline: none !important;
+    border: none !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+}
+
+/* 1. 탭 컨텐츠 전체 정렬 (개별 탭 전용) */
+.tab-content {
+    display: none;
+    width: 100%;
+}
+
+/* 개별 탭 컨텐츠 전체 정렬 보정 */
+.tab-content.active {
+    display: block;            /* flex 대신 block으로 변경 (위에서부터 차곡차곡) */
+    width: 100%;
+    text-align: left;          /* 왼쪽 정렬 보장 */
+}
+
+.unified-results-container {
+  min-height: 200px;
+  width: 100%;
+  max-width: 800px; /* 제미나이 너비 */
+  margin: 0 auto;
+}
+
+
+/*------------------------------
+/* 7.Mode Guide Style (Welcome Area)
+/*------------------------------*/
+.mode-guide {
+    display: flex;
+    flex-direction: column; /* 👈 가로가 아닌 세로(컬럼) 방향으로 정렬! */
+    align-items: center;    /* 가운데 정렬 */
+    gap: 10px;              /* 문장 사이 간격 좁히기 */
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    font-size: 14px;
+}
+.mode-guide strong { color: var(--accent-primary); }
+.sub-text { font-size: 13px; opacity: 0.7; }
+
+/*------------------------------
+/* 8-1. Welcome Message - Gemini Pure Style
+/*------------------------------*/
+.welcome-message {
+    text-align: center;
+    padding: 80px 20px 40px; /* 기존의 시원한 여백 유지 */
+    color: var(--text-secondary);
+    width: 100%;
+    max-width: 1000px;      /* 1:1 대화창과 너비 통일 */
+    margin: 0 auto;
+    animation: fadeIn 0.8s ease-out; /* 공장장님의 부드러운 애니메이션 유지 */
+}
+
+.welcome-message h2 {
+    color: #1f1f1f !important;
+    font-weight: 300;          /* 400보다 더 얇게 가도 세련되어 보입니다 */
+    margin-bottom: 16px;
+    font-size: 32px;           /* 제목을 조금 더 키워볼까요? */
+    letter-spacing: -0.5px;    /* 자간을 살짝 좁히면 훨씬 고급스럽습니다 */
+}
+
+.welcome-message p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.8;              /* 설명글은 살짝 힘을 뺍니다 */
+}
+
+/* 부드러운 등장 효과 */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 응답 영역 내부 보정 */
+.response-area {
+    width: 100%;
+    max-width: 1000px;
+    min-height: 200px;
+    padding: 0 20px 20px; /* 상단 패딩은 위에서 잡았으니 0으로 */
+    background: transparent;
+    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* 대화 간격도 시원하게 */
+}
+
+.empty-state {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* 4. 모델 정보 레이블 (배경색 살짝 보정) */
+.model-info {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    padding: 6px 16px;
+    background: var(--bg-sidebar); /* 사이드바와 같은 연한 블루 그레이 */
+    border-radius: 100px;
+    display: inline-block;
+}
+
+/*------------------------------
+/* 11. History Section
+/*------------------------------*/
+.history-section {
+  margin-top: 30px;
+}
+
+.history-section h3 {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.history-container {
+    max-height: 60vh !important; /* 🎯 화면 높이의 70%까지 자동으로 가변 */
+    overflow-y: scroll;        /* 🎯 세로 스크롤은 유지 (내용이 많을 때 대비) */
+    overflow-x: hidden;      /* 🎯 가로 스크롤만 확실하게 제거! */
+    padding-right: 5px;      /* 스크롤바랑 내용이 너무 붙지 않게 여백 */
+}
+
+/* 세로 스크롤바도 제미나이처럼 얇고 예쁘게 */
+.history-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.history-container::-webkit-scrollbar-thumb {
+    background: #dadce0;
+    border-radius: 4px;
+}
+
+/*------------------------------
+/* 11-1. History Section - 번개 밀착 버전
+/*------------------------------*/
+.history-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    background: var(--bg-main);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-primary);
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: flex;             /* 🎯 정렬을 위해 flex 도입 */
+    flex-direction: column;
+}
+
+.history-item:hover {
+    background: var(--bg-sidebar); /* 마우스 올리면 살짝 변하는 센스 */
+    transform: translateX(5px);   /* 오른쪽으로 살짝 밀리는 효과 */
+}
+
+.history-item .history-prompt {
+    font-weight: 600;
+    margin: 4px 0;
+    display: flex;             /* 질문과 번개 배치 */
+    align-items: flex-start;   /* 🎯 텍스트가 여러 줄일 때 번개가 위에 머물게 함 */
+    gap: 8px;
+    
+    /* 🎯 가로 스크롤 해결의 핵심 */
+    word-break: break-all;     /* 긴 단어도 강제로 줄바꿈 */
+    white-space: normal;       /* 한 줄로 길게 늘어지지 않게 함 */
+    width: 100%;               /* 부모 너비를 넘지 않도록 고정 */
+    line-height: 1.4;          /* 줄 간격 살짝 여유 있게 */
+}
+
+/* ⚡ 번개 아이콘은 텍스트가 길어져도 밀려나지 않게 고정 크기 부여 */
+.quick-send-bolt {
+    flex-shrink: 0;            /* 🎯 텍스트에 밀려서 작아지지 않게 함 */
+    font-size: 10px;
+    opacity: 0.4;
+    margin-top: 3px;           /* 글자 높이에 맞춰 살짝 아래로 조절 */
+}
+
+.history-item:hover .quick-send-bolt {
+    opacity: 1;                /* 마우스 올리면 번개가 선명해짐 */
+    color: var(--accent-primary);
+}
+
+/*------------------------------
+/* 12. Footer - 중앙 문구 고정 & 우측 링크 정렬
+/*------------------------------*/
+.footer {
+    height: var(--footer-height);
+    background: var(--bg-sidebar);
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 기본적으로 요소들을 우측으로 밀어냄 */
+    padding: 0 40px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    position: relative; /* 중앙 문구 고정을 위한 기준점 */
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+/* 🎯 중앙 문구: 화면의 절대적 중앙에 배치 */
+.footer-left {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* 정확히 가로 중앙 정렬 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+/* 🎯 우측 링크들 */
+.footer-right {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-left strong {
+    color: var(--accent-primary);
+    font-weight: 700;
+}
+
+.footer-right a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.footer-right a:hover {
+    color: var(--accent-primary);
+    transform: translateY(-1px);
+}
+
+/* 📱 모바일: 중앙 고정을 풀고 세로로 정렬 */
+@media (max-width: 900px) {
+    .footer {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 0;
+        justify-content: center;
+    }
+    .footer-left {
+        position: static;
+        transform: none;
+        margin-bottom: 10px;
+    }
+    .footer-right {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+
+/*------------------------------
+/* 13. Ad Containers (완전 박멸 & 공중부양 버전) */
+/*------------------------------*/
+
+.top-ad {
+    position: absolute;    /* 🚩 핵심: 전체 레이아웃 흐름에서 빼버림 (사이드바 안 밀림) */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    min-height: 0 !important; /* 무조건 0으로 시작 */
+    z-index: 1000;           /* 헤더보다 위에 떠 있게 */
+    background: transparent;
+    border: none !important; /* 선 때문에 생기는 잔상 제거 */
+    pointer-events: none;    /* 광고 뒷부분 클릭 가능하게 (선택사항) */
+}
+
+.top-ad ins {
+    pointer-events: auto;    /* 광고 자체는 클릭 가능하게 */
+}
+
+/* 광고가 진짜 비어있을 때 (공백 하나라도 있으면 안 됨) */
+.top-ad:empty, 
+.top-ad:not(:has(ins)) {
+    display: none !important;
+}
+
+/*------------------------------
+/* 14. Modal System (Safe & Global Style)
+/*------------------------------*/
+.modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* 배경을 조금 더 어둡게 해서 집중도 상승 */
+  z-index: 9999; /* 👈 숫자를 아주 크게 줘서 헤더를 굴복시키세요! */
+}
+
+.modal-content {
+  background: #ffffff;
+  margin: 4vh auto; /* 👈 위아래 여백을 화면 높이(vh) 기준으로 해서 더 균형 잡히게 */
+  padding: 25px;   /* 너무 넓은 패딩은 내용 집중도를 떨어뜨림 */
+  border: none;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15), 0 5px 10px rgba(0,0,0,0.05); /* 더 부드러운 이중 그림자 */
+  
+  width: 95%;      /* 모바일 대응 */
+  max-width: 800px; /* 👈 답변 가독성을 위해 800px로 확장! */
+  border-radius: 14px; /* 👈 너무 둥글지 않게, 세련된 각도 */
+  
+  position: relative;
+  overflow-y: auto; /* 스크롤바 유지 */
+  max-height: 85vh; /* 화면의 85%까지만 커지게 */
+  
+  animation: modalFadeIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); /* 더 고급스러운 가속도 */
+}
+
+/* 나타나는 애니메이션 정의 (없으시면 추가하세요) */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 스윽~ 나타나는 애니메이션 */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close-btn {
+  position: absolute;
+  right: 25px;
+  top: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #ff4d4d; /* 마우스 올리면 빨간색으로 센스 있게 */
+}
+
+.modal-body {
+  margin: 20px 0;
+  text-align: left; /* 글로벌 표준: 왼쪽 정렬 */
+}
+
+.security-item {
+  margin-bottom: 25px;
+}
+
+.security-item h4 {
+  color: var(--accent-primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/*------------------------------
+/* 15. Responsive (최종 수술 완료)
+/*------------------------------*/
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 280px;
+  }
+
+  .sidebar {
+    /* 🎯 핵심 1: 모바일에선 무조건 fixed여야 튀어나옵니다! */
+    position: fixed !important; 
+    left: 0;
+    top: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    
+    /* 🎯 핵심 2: 화면 왼쪽 밖으로 완전히 유배 보내기 */
+    transform: translateX(-100%); 
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 좀 더 찰진 손맛 */
+    
+    z-index: 2000; /* 헤더보다 높게 설정해서 다 덮어버리기 */
+    background: var(--bg-sidebar);
+    box-shadow: none;
+  }
+
+  /* 🎯 핵심 3: JS가 active를 붙이면 나타남 */
+  .sidebar.active {
+    transform: translateX(0);
+    box-shadow: 10px 0 25px rgba(0, 0, 0, 0.5); /* 튀어나올 때 입체감 */
+  }
+
+  .main-layout {
+    margin-left: 0 !important; /* 채팅창이 화면 꽉 차게 */
+  }
+
+
+  /* --- 아래는 공장장님 원래 코드 그대로 유지 --- */
+  .brand-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .footer-links {
+    gap: 10px;
+  }
+  
+  .badge-text {
+    display: none;
+  }
+}
+
+/*------------------------------
+/* 16. Interaction & Hand-feel (손맛 추가)
+/*------------------------------*/
+
+/* 모든 버튼에 반응 속도 설정 */
+button, .send-btn, .btn-primary-sm, .btn-secondary-sm, .tab-btn, .byok-badge {
+  transition: all 0.1s ease-in-out !important;
+  cursor: pointer;
+}
+
+/* 1. 마우스를 올렸을 때 (Hover) - 살짝 떠오르는 느낌 */
+.send-btn:hover, .btn-primary-sm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 128, 241, 0.2);
+}
+
+.tab-btn:hover, .btn-secondary-sm:hover {
+  background: var(--accent-secondary) !important;
+}
+
+/* 2. 클릭했을 때 (Active) - 쫀득하게 눌리는 느낌 */
+button:active, 
+.send-btn:active, 
+.btn-primary-sm:active, 
+.btn-secondary-sm:active, 
+.tab-btn:active,
+.byok-badge:active {
+  transform: scale(0.95) !important; /* 5% 작아짐 */
+  filter: brightness(0.9); /* 살짝 어두워짐 */
+}
+
+/* 3. 전송 버튼 특수 효과 - 비행기 날아가기 전 텐션 */
+.send-btn:active {
+  transform: scale(0.9) rotate(-10deg) !important;
+}
+
+/*------------------------------
+/* 17. API Key Setup (이벤트 효과)
+/*------------------------------*/
+/* API 가이드 미니 팝업 스타일 */
+.guide-mini-popup {
+    display: none; /* 일단 숨김 */
+    position: fixed;
+    top: 60px;     /* 헤더 아래쪽 적당한 위치 */
+    right: 24px;
+    width: 280px;
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* 붕 떠 있는 느낌 */
+    z-index: 10000;
+    animation: fadeInDown 0.2s ease-out; /* 등장 애니메이션 */
+}
+
+.guide-mini-popup p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.guide-mini-popup p:last-child {
+    margin-bottom: 0;
+    color: var(--accent-primary); /* 강조 문구는 블루 */
+    font-weight: 500;
+}
+
+/* 팝업 등장 애니메이션 */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/*------------------------------
+/* 18. API키 save버튼시 (이벤트 효과)
+/*------------------------------*/
+
+/* 토스트 알림 메시지 스타일 */
+/* 버튼 옆에 찰떡같이 붙는 녹색 알림 */
+/* 수정된 토스트 스타일 */
+#toast {
+    visibility: hidden;
+    background-color: #28a745; 
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 8px 16px;
+    position: fixed; /* 위치는 JS가 정해줄 거니까 고정값은 삭제! */
+    z-index: 2000;
+    font-size: 13px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    
+    /* 🚩 중요: 기존의 left: 50%, bottom: 30% 이런 건 다 지우세요! */
+    
+    opacity: 0;
+    /* transition에서 transform을 빼야 순간이동 현상이 사라집니다 */
+    transition: opacity 0.3s; 
+}
+
+#toast.show {
+    visibility: visible;
+    opacity: 1;
+    /* 슬라이드 애니메이션 대신 살짝 위로 뜨는 느낌만 추가 */
+    margin-top: -10px; 
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+/*------------------------------
+/* 19. Buy Me a Coffee Section
+/*------------------------------*/
+/* 헤더용 커피 버튼 스타일 */
+.bmc-header-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #FFDD00; /* 커피 시그니처 컬러 */
+    color: #000000 !important;
+    padding: 6px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.bmc-header-btn img {
+    height: 18px;
+    width: auto;
+}
+
+.bmc-header-btn:hover {
+    transform: translateY(-2px);
+    background: #ffea00;
+    box-shadow: 0 4px 12px rgba(255, 221, 0, 0.3);
+}
+
+/* 모바일에서 글자 숨기기 (옵션) */
+@media (max-width: 600px) {
+    .bmc-header-btn span { display: none; }
+    .bmc-header-btn { padding: 6px; }
+}
+
+
+/*------------------------------
+/* 20. ai호출에 대한 카운터 (기본형)
+/*------------------------------*/
+
+.tab-count {
+    font-size: 0.85em;       /* 버튼 글자보다 약간 작게 */
+    opacity: 0.6;            /* 평소에는 은은하게 */
+    margin-left: 4px;        /* 텍스트와 적당한 거리 */
+    font-weight: normal;     /* 너무 튀지 않는 굵기 */
+    font-family: 'JetBrains Mono', monospace; /* 숫자 가독성 확보 */
+}
+
+/* 활성화된 탭(파란색 배경) 안에서는 숫자가 하얗고 뚜렷하게 */
+.tab-btn.active .tab-count {
+    opacity: 1;
+    color: #ffffff !important;
+}
+
+
+/*------------------------------
+/* 21. API의 입력할때 해당 번호확인및 보안처리하는 눈 아이콘 
+/*------------------------------*/
+.toggle-eye {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #5f6368; /* Streamlit 느낌의 차분한 회색 */
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.material-icons {
+    font-size: 20px; /* 너무 부릅뜨지 않게 적당한 크기 */
+}
+
+
+/*------------------------------
+/* 22. 보고서 가독성 및 마크다운 스타일 업그레이드 
+/*------------------------------*/
+
+.result-content {
+    line-height: 1.7;
+    letter-spacing: -0.01em; 
+    word-break: break-word;  
+    padding: 20px;
+    color: #333;
+    /* 🎯 [추가] 내용이 너무 길어지면 카드 안에서 스크롤이 생기게 함 */
+    max-height: 600px; 
+    overflow-y: auto;
+}
+
+/* 🎯 [추가] 스크롤바 전체 너비 설정 */
+.result-content::-webkit-scrollbar {
+    width: 6px; /* 아주 얇고 세련되게 */
+}
+
+/* 🎯 [추가] 스크롤바 막대(손잡이) 디자인 */
+.result-content::-webkit-scrollbar-thumb {
+    background: #d1d8e0; /* 연한 회색으로 깔끔하게 */
+    border-radius: 10px;
+}
+
+/* 🎯 [추가] 마우스 올렸을 때 막대 색상 살짝 진하게 */
+.result-content::-webkit-scrollbar-thumb:hover {
+    background: #a5b1c2;
+}
+
+/* 텍스트 강조 (형광펜 효과 유지) */
+.result-content strong {
+    color: #2c3e50;
+    font-weight: 700;
+    background: linear-gradient(to top, #ffeaa7 30%, transparent 30%); /* 형광펜 느낌 살리기 */
+    padding: 0 2px;
+}
+
+/* 🎯 [추가] 마크다운 코드 블록 스타일 (개발자 갬성) */
+.result-content pre {
+    background: #2d3436;      /* 다크 코드 배경 */
+    color: #dfe6e9;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;         /* 코드가 길면 가로 스크롤 */
+    margin: 15px 0;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.result-content code {
+    background: #f1f2f6;      /* 인라인 코드 배경 */
+    padding: 2px 5px;
+    border-radius: 4px;
+    color: #e83e8c;
+    font-size: 0.9em;
+}
+
+/* 🎯 [추가] 목록(List) 간격 조절 */
+.result-content ul, .result-content ol {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.result-content li {
+    margin-bottom: 8px;
+}
+
+
+/* ========== [KIVOSY] Unified Mode Vertical Layout Extension ========== */
+
+/* 결과들을 담는 큰 바구니: 가로에서 세로(column)로 변경 */
+#unified-results {
+    display: flex;
+    flex-direction: column; 
+    gap: 30px;
+    width: 100%;
+    max-width: 950px; /* 시원시원한 가독성을 위한 너비 */
+    margin: 20px auto;
+    padding-bottom: 100px; /* 입력창에 가려지지 않게 여백 */
+}
+
+/* 각 모델 답변 카드: 100% 너비 사용 */
+.result-card {
+    width: 100% !important; 
+    background: var(--card-bg, #ffffff);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.1);
+    border: 1px solid #e1e4e8;
+}
+
+/* 마크다운 표(Table) 스타일 보정: 이제 안 깨집니다 */
+.result-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.result-content th, .result-content td {
+    border: 1px solid #dfe2e5;
+    padding: 10px 14px;
+}
+
+.result-content th {
+    background-color: #f6f8fa;
+}
+
+/* ===================================================================== */
+/* [KIVOSY] 질문(블루) / 답변(오렌지) 통합 스타일링 */
+/* ===================================================================== */
+
+/* 1. 공통 레이블 스타일 */
+.bubble-label { 
+    font-size: 0.75rem; 
+    font-weight: bold; 
+    display: block; 
+    margin-bottom: 10px; 
+}
+
+/* 2. 질문(User) 박스: 블루 컨셉 */
+.user-bubble { 
+    border-left: 5px solid #4285f4 !important; 
+    background: rgba(66, 133, 244, 0.05) !important; 
+    padding: 15px; 
+    border-radius: 12px; 
+    margin-bottom: 10px; 
+    width: 100%;
+}
+
+.user-bubble .bubble-label {
+    color: #4285f4;
+    opacity: 0.8;
+}
+
+/* 3. AI 답변 박스: 오렌지 컨셉 통일 */
+.ai-bubble { 
+    background: #ffffff;
+    padding: 20px; 
+    border-radius: 12px; 
+    border: 1px solid #e1e4e8;
+    border-left: 5px solid #ff9f43 !important; /* 선명한 주황색 */
+    line-height: 1.7;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* 개별 모델 클래스가 붙어도 주황색 유지 */
+.ai-bubble.gemini, .ai-bubble.groq, .ai-bubble.hf { 
+    border-left-color: #ff9f43 !important; 
+}
+
+.ai-bubble .bubble-label {
+    color: #ff9f43;
+    opacity: 0.8;
+}
+
+/* 4. 마크다운 및 기타 요소 */
+.bubble-text { font-size: 0.95rem; }
+
+.bubble-text table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin: 10px 0; 
+}
+
+.bubble-text th, .bubble-text td { 
+    border: 1px solid #dfe2e5; 
+    padding: 8px; 
+}
+
+.bubble-text pre { 
+    background: #2d3436; 
+    color: #dfe6e9; 
+    padding: 15px; 
+    border-radius: 8px; 
+    overflow-x: auto; 
+}
+
+/* 3. 개별 메시지 박스 */
+.chat-entry { 
+    margin-bottom: 30px; 
+    animation: fadeIn 0.5s ease; 
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 메시지 안의 버블도 중앙 정렬 유지 */
+}
+
+.chat-spacer { 
+    height: 1px; 
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent); 
+    margin: 25px 0; 
+}
+
+/*------------------------------
+/* 23. 답변 퀵점프하는 버튼
+/*------------------------------*/
+.nav-mini-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-primary);
+}
+
+.nav-mini-btn:hover {
+    background: var(--accent-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.nav-mini-btn.active {
+    background: var(--accent-primary);
+    color: white;
+}
+
+/*------------------------------
+/* 24. 여러 답변중 해당답변으로 바로 이동
+/* 24. 공중부양 세로형 퀵 리모컨 (Remote Control)
+/*------------------------------*/
+.quick-remote {
+    position: fixed;
+    right: 40px;           /* 전송 버튼 근처 가로 위치 */
+    bottom: 120px;         /* 전송 버튼 위쪽 (노란 박스 위치) */
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+    padding: 12px 8px;
+    background: #ffffff;    /* 공장장님의 Solid UI에 맞춰 흰색으로 변경 */
+    border-radius: 40px;
+    border: 1px solid var(--border-light);
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    
+    /* ✨ 등장 애니메이션 추가 */
+    animation: slideInUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s ease;
+}
+
+.remote-label {
+    font-size: 8px;
+    font-weight: 900;
+    color: var(--accent-primary);
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.remote-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg-sidebar); /* 사이드바 배경색과 통일 */
+    border: 1px solid var(--border-light);
+    color: var(--text-primary);
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remote-btn:hover {
+    background: var(--accent-primary);
+    color: white !important;
+    transform: scale(1.15);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+/* 🎬 공장장님이 찾으시던 등장 애니메이션 정의 */
+@keyframes slideInUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.9); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
+}
+
+/* 모바일 화면에서는 위치를 살짝 조정 */
+@media (max-width: 768px) {
+    .quick-remote {
+        right: 20px;
+        bottom: 140px;
+    }
+}
+
+/*------------------------------
+/*-----   전체대화용  -----------
+/* 25. 생성된 답변 내부에 txt, html, pdf 바로 복사하거나 내려받기
+/*------------------------------*/
+.card-actions {
+    display: flex;
+    gap: 4px; /* 버튼 사이 간격 */
+}
+
+.card-actions button {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.card-actions button:hover {
+    background: var(--accent-primary, #007bff);
+    color: white;
+    border-color: var(--accent-primary, #007bff);
+    transform: translateY(-1px);
+}
+
+/*------------------------------
+/*-----   개별대화용 -----------
+/* 25-1. 생성된 답변 내부에 txt, html, pdf 바로 복사하거나 내려받기
+/*------------------------------*/
+/* 개별창 내부에 들어가는 미니 PDF 버튼 스타일 */
+/* mini-actions 내부의 모든 버튼 혹은 mini-pdf-btn 클래스에 적용 */
+.mini-actions button, .mini-pdf-btn {
+    background: #ff4757; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 2px 8px; /* 패딩 살짝 키움 */
+    font-size: 9px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    opacity: 0.9;
+}
+
+.mini-actions button:hover, .mini-pdf-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    background: #ff6b81;
+}
+
+/* PDF 저장 시 요소가 페이지 중간에서 잘리는 것 방지 */
+.result-content p, .result-content h1, .result-content h2, 
+.result-content h3, .result-content li, .result-content table,
+.bubble-text p, .bubble-text li {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+/*-----   개별대화용 -----------
+/* 25-2. 모달로 받은 개별 답변 내용치기
+/*------------------------------*/
+/* ============================================================
+   ✅ 히스토리 모달 전용: 여백 박멸 & 레이아웃 최적화
+   ============================================================ */
+.past-view-container {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+/* 1. 질문 박스 (USER) 상단 여백 제거 */
+.past-view-container .user-bubble {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+    padding: 12px !important;
+}
+
+/* 2. 답변 박스 (AI) 내부 텍스트 첫 문단 여백 제거 */
+.past-view-container .markdown-body p:first-child {
+    margin-top: 0 !important;
+}
+
+/* 3. 모달 스크롤바 디자인 (내용이 길 때 생기는 바를 깔끔하게) */
+#history-modal .modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+#history-modal .modal-content::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* 4. 모달 배경 클릭 방지 레이어 (선택 사항) */
+#history-modal {
+    backdrop-filter: blur(2px); /* 배경 살짝 흐리게 해서 집중도 상승 */
+}
+
+/* 프린트 설정에서 '배경 그래픽'을 안 켜도 색상이 나오게 하는 마법 */
+@media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    pre { background-color: #f8f9fa !important; border: 1px solid #ddd !important; }
+}

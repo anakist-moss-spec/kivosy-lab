@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIVOSY AI Command Center</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google AdSense (replace with your publisher ID) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Top Ad Banner -->
+    <div class="ad-container top-ad">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1234567890"
+             data-ad-format="horizontal"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <div class="app-wrapper">
+        <!-- Header - Fixed -->
+        <header class="header glass-effect">
+            <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+            <div class="header-left">
+                <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+                <div class="brand-area">
+                    <a href="index.html" class="brand-logo">
+                        KIVOSY Lab <span class="brand-sub">Intelligence</span>
+                    </a>
+                    <div class="system-status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">v3.0 • BYOK Secure</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-buttons">
+                            <button class="tab-btn active" data-tab="unified">
+                                All Models <span class="tab-count">(<span id="tab-total">0</span>)</span>
+                            </button>
+                            <button class="tab-btn" data-tab="gemini">
+                                Gemini <span class="tab-count">(<span id="tab-gemini">0</span>)</span>
+                            </button>
+                            <button class="tab-btn" data-tab="groq">
+                                Groq <span class="tab-count">(<span id="tab-groq">0</span>)</span>
+                            </button>
+                            <button class="tab-btn" data-tab="hf">
+                                HF <span class="tab-count">(<span id="tab-hf">0</span>)</span>
+                            </button>
+                        </div>
+            
+            <!-- Buy Me a Coffee Widget -->
+                    <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+                    <a href="https://www.buymeacoffee.com/anakist124" target="_blank" class="bmc-header-btn" title="Support KIVOSY Labs!">
+                        <img src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg" alt="Buy me a coffee">
+                        <span>Support</span>
+                    </a>
+
+                    <div class="byok-badge" onclick="showGuide()">⚙️ API Key Setup</div>
+                </div>
+
+            <!-- API비밀번호 보기이모티콘 -->    
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        </header>
+
+        <!-- Main Layout: Sidebar + Content -->
+        <div class="main-layout">
+            <!-- Sidebar - Fixed (Collapsible) -->
+            <aside class="sidebar glass-effect" id="sidebar">
+                <div class="sidebar-content">
+                    <div class="config-section">
+                        <h3>🔧 Free Models <span class="badge-free-header">Free Tier</span></h3>
+
+                        <details class="config-group" open>
+                            <summary>
+                                <span>Google Gemini<span class="badge-free">FREE</span></span>
+                                <span class="status-dot-active"></span>
+                            </summary>
+                            <div class="group-content">
+                                <div class="input-group">
+                                    <label>🔑 Gemini API Key</label>
+                                    <div class="password-wrapper" style="position: relative; display: flex; align-items: center;">
+                                        <input type="password" id="gemini-key" placeholder="Enter API Key" 
+                                            style="width: 100%; padding: 10px 40px 10px 10px; border-radius: 8px; border: 1px solid #ddd;">
+                                        <button type="button" class="toggle-eye" onclick="togglePassword('gemini-key', this)" 
+                                                style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: #666; display: flex; align-items: center;">
+                                            <span class="material-icons" style="font-size: 20px;">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="guide-links" style="margin-top: 8px; font-size: 12px; display: flex; gap: 10px; align-items: center;">
+                                        <span style="color: #70757a;">Get from:</span>
+                                        <a href="https://aistudio.google.com/" target="_blank" style="color: #1a73e8; text-decoration: none; font-weight: 500;">🔗 AI Studio</a>
+                                        <a href="guide-gemini.html" target="_blank" style="color: #5f6368; text-decoration: none;">📄 Guide</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label>📦 Model Path</label>
+                                    <input type="text" id="gemini-model" value="models/gemini-2.5-flash" class="model-input-box">
+                                    <small class="input-hint">2026 Stable Version</small>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="config-group">
+                            <summary>
+                                <span>Groq (Llama)<span class="badge-free">FREE</span></span>
+                            </summary>
+                            <div class="group-content">
+                                <div class="input-group">
+                                    <label>🔑 Groq API Key</label>
+                                    <div class="password-wrapper" style="position: relative; display: flex; align-items: center;">
+                                        <input type="password" id="groq-key" placeholder="Enter Groq API Key" 
+                                            style="width: 100%; padding: 10px 40px 10px 10px; border-radius: 8px; border: 1px solid #ddd;">
+                                        <button type="button" class="toggle-eye" onclick="togglePassword('groq-key', this)" 
+                                                style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: #666; display: flex; align-items: center;">
+                                            <span class="material-icons" style="font-size: 20px;">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="guide-links" style="margin-top: 8px; font-size: 12px; display: flex; gap: 10px; align-items: center;">
+                                        <span style="color: #70757a;">Get from:</span>
+                                        <a href="https://console.groq.com/keys" target="_blank" style="color: #f55036; text-decoration: none; font-weight: 500;">🔗 Groq Console</a>
+                                        <a href="guide-groq.html" target="_blank" style="color: #5f6368; text-decoration: none;">📄 Guide</a>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label>📦 Model Path</label>
+                                    <input type="text" id="groq-model" value="llama-3.3-70b-versatile">
+                                </div>
+                            </div>
+                        </details>
+
+                        <details class="config-group">
+                            <summary>
+                                <span>Hugging Face<span class="badge-free">FREE</span></span>
+                            </summary>
+                            <div class="group-content">
+                                <div class="input-group">
+                                    <label>🔑 HF API Key</label>
+                                    <div class="password-wrapper" style="position: relative; display: flex; align-items: center;">
+                                        <input type="password" id="hf-key" placeholder="Enter HF API Key" 
+                                            style="width: 100%; padding: 10px 40px 10px 10px; border-radius: 8px; border: 1px solid #ddd;">
+                                        <button type="button" class="toggle-eye" onclick="togglePassword('hf-key', this)" 
+                                                style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; color: #666; display: flex; align-items: center;">
+                                            <span class="material-icons" style="font-size: 20px;">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="guide-links" style="margin-top: 8px; font-size: 12px; display: flex; gap: 10px; align-items: center;">
+                                        <span style="color: #70757a;">Get from:</span>
+                                        <a href="https://huggingface.co/settings/tokens" target="_blank" style="color: #ffac33; text-decoration: none; font-weight: 500;">🔗 HF Tokens</a>
+                                        <a href="guide-huggingface.html" target="_blank" style="color: #5f6368; text-decoration: none;">📄 Guide</a>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label>📦 Model Path</label>
+                                    <input type="text" id="hf-model" value="Qwen/Qwen2.5-72B-Instruct">
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </div>        
+                        <div class="btn-group-row">
+                            <button id="save-keys" class="btn-primary-sm">💾 Save Keys</button>
+                            <button id="clear-keys" class="btn-secondary-sm">🗑️ Clear</button>
+                        </div>
+                        
+                        <div class="info-link-area" style="text-align: center; margin-top: 15px;">
+                            <a href="#" onclick="openModal(); return false;" style="font-size: 11px; color: var(--text-secondary); text-decoration: underline;">
+                                🛡️ Is my API Key safe?
+                            </a>
+                        </div>
+            </aside>
+
+            <div id="guideModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close-btn" onclick="closeModal()">&times;</span>
+                                <h2>🛡️ KIVOSY Labs Security Guide</h2>
+                                <hr>
+                                <div class="modal-body">
+                                    <div style="margin-bottom: 20px;">
+                                        <h4 style="color: var(--accent-primary); display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                                            1. Storage Location
+                                        </h4>
+                                        <div style="font-size: 14px; margin-left: 28px; color: var(--text-secondary); line-height: 1.6;">
+                                            <p style="margin-bottom: 4px;">Your API keys are never sent to our server.</p>
+                                            <p style="margin: 0;">They are stored ONLY in your browser's <strong>LocalStorage</strong>.</p>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-bottom: 20px;">
+                                        <h4 style="color: var(--accent-primary); display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                                            2. Data Persistence
+                                        </h4>
+                                        <div style="font-size: 14px; margin-left: 28px; color: var(--text-secondary); line-height: 1.6;">
+                                            <p style="margin-bottom: 4px;">The browser remembers your keys unless you click 'Clear'.</p>
+                                            <p style="margin: 0;">No need to re-enter them on your next visit.</p>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-bottom: 20px;">
+                                        <h4 style="color: var(--accent-primary); display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                                            3. Safety Precautions
+                                        </h4>
+                                        <ul style="font-size: 14px; margin-left: 28px; color: var(--text-secondary); list-style-type: none; padding: 0;">
+                                            <li style="margin-bottom: 5px;">• Avoid using public computers (Cybercafes, etc.)</li>
+                                            <li style="margin-bottom: 5px;">• Keep your keys private even on personal devices</li>
+                                            <li>• Keep your PC locked and antivirus up to date</li>
+                                        </ul>
+                                    </div>
+
+                                    <div style="margin-bottom: 20px;">
+                                        <h4 style="color: var(--accent-primary); display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                                            4. Risk Mitigation
+                                        </h4>
+                                        <div style="font-size: 14px; margin-left: 28px; color: var(--text-secondary); line-height: 1.6;">
+                                            <p style="margin-bottom: 4px;">Usage limits set by API providers will protect your budget.</p>
+                                            <p style="margin: 0;">You can <strong>revoke</strong> keys instantly if they are compromised.</p>
+                                        </div>
+                                    </div>
+
+                                    <div style="background: var(--accent-secondary); padding: 15px; border-radius: 12px; border: 1px dashed var(--accent-primary);">
+                                        <h4 style="color: var(--accent-primary); margin-top: 0; font-size: 14px;">✨ Pro-Tip for Safety</h4>
+                                        <ul style="font-size: 13px; color: var(--text-primary); margin-bottom: 0; padding-left: 20px;">
+                                            <li>Never show your API keys in screenshots!</li>
+                                            <li>Rotating your keys periodically adds extra security.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <button class="btn-primary-sm" onclick="closeModal()" style="width: 100%; margin-top: 20px;">I understand!</button>
+                            </div>
+                        </div>
+
+            
+            <!-- Main Content Area -->
+            <main class="content">
+                <!-- Scrollable Chat Area -->
+                <div class="chat-container" id="chatContainer">
+                    <!-- Unified Chat Tab -->
+                    <div class="tab-container">
+                        
+                        
+                        <!-- Unified Tab Content -->
+                        <div id="unified-tab" class="tab-content active">
+                            <div class="unified-results-container" id="unified-results">
+                                <!-- Results will be displayed here -->
+                                <div class="welcome-message">
+                                    <h2>🚀 KIVOSY AI Command Center</h2>
+                                    <div class="mode-guide">
+                                        <p><strong>Unified:</strong> Ask all models at once ⚡</p>
+                                        <p><strong>Individual:</strong> Chat with a specific AI 1:1 </p>
+                                    </div>
+                                    <p class="sub-text">Compare responses or focus on your favorite model!</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Gemini Tab Content -->
+                        <div id="gemini-tab" class="tab-content">
+                            <div class="model-info">Using: <span id="gemini-model-display">gemini-2.5-flash</span></div>
+                            <div class="response-area" id="gemini-response">
+                                <div class="empty-state">Ready to chat with Gemini...</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Groq Tab Content -->
+                        <div id="groq-tab" class="tab-content">
+                            <div class="model-info">Using: <span id="groq-model-display">llama-3.3-70b-versatile</span></div>
+                            <div class="response-area" id="groq-response">
+                                <div class="empty-state">Ready to chat with Groq...</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hugging Face Tab Content -->
+                        <div id="hf-tab" class="tab-content">
+                            <div class="model-info">Using: <span id="hf-model-display">Qwen/Qwen2.5-72B-Instruct</span></div>
+                            <div class="response-area" id="hf-response">
+                                <div class="empty-state">Ready to chat with Hugging Face...</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- History Section (Compact) -->
+                    <div class="history-section">
+                        <h3>📚 Recent <small style="font-size: 10px; color: var(--accent-primary); font-weight: normal;">(Quick Send ⚡)</small></h3>
+                        <div id="history-container" class="history-container">
+                            <!-- History items will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div id="quick-remote" class="quick-remote glass-effect" style="display: none;">
+                    <div class="remote-label">JUMP</div>
+                    <button onclick="switchTab('unified')" class="remote-btn" title="All Models">ALL</button>
+                    <button onclick="scrollToModel('gemini')" class="remote-btn" title="Gemini">G</button>
+                    <button onclick="scrollToModel('groq')" class="remote-btn" title="Groq">Q</button>
+                    <button onclick="scrollToModel('hf')" class="remote-btn" title="Hugging Face">H</button>
+                </div>
+
+
+                <!-- Fixed Input Area at Bottom -->
+                <div class="input-fixed-area glass-effect">
+                    <div class="input-wrapper">
+                        <textarea id="main-prompt" placeholder="Ask AI..." rows="1"></textarea>
+                        <button id="main-send" class="send-btn">📤</button>
+                    </div>
+                    <div class="input-actions">
+                        <span class="model-badge" onclick="switchTab('unified')" title="Ask all AI models at once">All Models</span>
+                        <span class="model-badge" onclick="switchTab('gemini')" title="Switch to Google Gemini 1:1">Gemini</span>
+                        <span class="model-badge" onclick="switchTab('groq')" title="Switch to Ultra-fast Groq Llama">Groq</span>
+                        <span class="model-badge" onclick="switchTab('hf')" title="Switch to Hugging Face Models">HF</span>
+                        
+                        <div class="action-divider"></div> 
+    
+                        <div class="manage-btns">
+                            <a href="#" id="export-history" title="Export Chat">📥</a>
+                            <a href="#" onclick="clearHistory();" class="clear-btn" title="Clear Chat">🗑️</a>
+                        </div>
+                    
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        <!-- Bottom Ad Banner -->
+        <div class="ad-container bottom-ad">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="0987654321"
+                 data-ad-format="horizontal"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer glass-effect">
+            <div class="footer-content" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+                
+                <div class="footer-left" style="font-size: 13px;">
+                    Developed by <strong>KIVOSY Labs</strong> © 2026
+                </div>
+
+                <div class="footer-right" style="display: flex; align-items: center; gap: 20px;">
+                    
+                    <button id="sendFeedback" style="background: none; border: 1px solid #1a73e8; color: #1a73e8; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px;">
+                        <span>🚀</span> Feedback
+                    </button>
+
+                    <div style="display: flex; gap: 15px; font-size: 13px;">
+                        <a href="https://kivosy.com" target="_blank" style="text-decoration: none; color: inherit;">🌐 KIVOSY.com</a>
+                        <a href="https://chromewebstore.google.com/detail/ai-insight-exporter-dark/bphlglibkflmchboioecbdgmgepeojdd" target="_blank" style="text-decoration: none; color: inherit;">🔌 Chrome Extension</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Guide Modal -->
+    <!-- 하단 toast는 해당 문구가 출력되지않는다. --> 
+    <div id="toast">✅ 설정이 저장되었습니다!</div> <!-- ⚠️ 키를 넣어주세요!" (빨간색)// ✅ 저장 완료!" (녹색)-->
+    <!-- toast는 "Text is dynamically replaced": "글자는 JS가 알아서 바꾼다"는 뜻, HTML에 뭐라고 써있든 신경 안 써도 된다는 걸 알림-->
+    <div id="setupModal" class="modal">
+        <div class="modal-content glass-effect-dark" id="setupModalContent"> </div>
+    </div>
+
+    
+    <script src="app.js"></script>
+
+    <div id="guide-popup" class="guide-mini-popup">
+        <p><strong>Security Mode:</strong> Powered by your own API keys.</p>
+        <p>All keys are stored locally in your browser only.</p>
+    </div>
+
+    <div id="history-modal" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.6);">
+        <div class="modal-content" style="background:#fff; margin:5% auto; padding:20px; border-radius:12px; width:80%; max-width:800px; max-height:80vh; overflow-y:auto; position:relative;">
+            <span onclick="closeHistoryModal()" style="position:absolute; right:20px; top:15px; font-size:28px; cursor:pointer;">&times;</span>
+            <div id="modal-body">
+                </div>
+            <div style="margin-top:20px; border-top:1px solid #eee; padding-top:15px; text-align:right;">
+                <button onclick="reusePrompt()" style="background:#0d6efd; color: white; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:13px;">
+                    ✍️ Reuse This Prompt
+                </button>
+                
+                <button onclick="closeHistoryModal()" style="background:#f1f3f4; color: #3c4043; border:1px solid #dadce0; padding:8px 16px; border-radius:6px; cursor:pointer; margin-left:10px; font-weight:bold; font-size:13px;">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
