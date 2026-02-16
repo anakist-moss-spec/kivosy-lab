@@ -27,7 +27,7 @@ A **100% client-side, serverless AI dashboard** that lets you orchestrate and co
 - **Buy Me a Coffee widget** – Update `data-slug="kivosylabs"` with your username  
 - **Footer branding** – Links to your ecosystem  
 
-## 🔒 Security First (BYOK)
+## Security First (BYOK)
 We prioritize your privacy. This application is **100% serverless**.  
 - **No Data Collection**: Your API keys are never transmitted to any server.
 - **Local Storage**: Keys are stored securely in your browser's local storage.
@@ -40,3 +40,4 @@ We prioritize your privacy. This application is **100% serverless**.
 ## License
 💡 Have an idea? Send us feedback!
 © 2026 KIVOSY Labs. All rights reserved.
+
