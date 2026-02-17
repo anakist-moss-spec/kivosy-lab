@@ -363,23 +363,25 @@
         
         <!-- Footer -->
         <footer class="footer glass-effect">
-            <div class="footer-content" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
-                
-                <div class="footer-left" style="font-size: 13px;">
-                    Developed by <strong>KIVOSY Labs</strong> © 2026
-                </div>
+            <div class="footer-legal" style="margin-right: auto; display: flex; gap: 8px;">
+                <button onclick="openTermsModal()" style="background: rgba(0,0,0,0.03); border: 1px solid var(--border-light); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all 0.2s ease; font-family: inherit;">
+                    Terms
+                </button>
+                <button onclick="openPrivacyModal()" style="background: rgba(0,0,0,0.03); border: 1px solid var(--border-light); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all 0.2s ease; font-family: inherit;">
+                    Privacy
+                </button>
+            </div>
 
-                <div class="footer-right" style="display: flex; align-items: center; gap: 20px;">
-                    
-                    <button id="sendFeedback" style="background: none; border: 1px solid #1a73e8; color: #1a73e8; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 5px;">
-                        <span>🚀</span> Feedback
-                    </button>
+            <div class="footer-left">
+                Developed by <strong>KIVOSY Labs</strong> © 2026
+            </div>
 
-                    <div style="display: flex; gap: 15px; font-size: 13px;">
-                        <a href="https://kivosy.com" target="_blank" style="text-decoration: none; color: inherit;">🌐 KIVOSY.com</a>
-                        <a href="https://chromewebstore.google.com/detail/ai-insight-exporter-dark/bphlglibkflmchboioecbdgmgepeojdd" target="_blank" style="text-decoration: none; color: inherit;">🔌 Chrome Extension</a>
-                    </div>
-                </div>
+            <div class="footer-right">
+                <button id="sendFeedback" style="background: none; border: 1px solid #1a73e8; color: #1a73e8; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                    <span>🚀</span> Feedback
+                </button>
+                <a href="https://kivosy.com" target="_blank">🌐 KIVOSY.com</a>
+                <a href="https://chromewebstore.google.com/..." target="_blank">🔌 Extension</a>
             </div>
         </footer>
     </div>
@@ -416,6 +418,86 @@
             </div>
         </div>
     </div>
+
+    <div id="privacyModal" class="modal" style="display:none; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter: blur(5px);">
+        <div class="modal-content" style="background:#fff; color:#333; margin:5% auto; padding:30px; border-radius:15px; width:90%; max-width:600px; max-height:80vh; overflow-y:auto; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:15px; margin-bottom:20px;">
+                <h2 style="margin:0; font-size:20px; color:#1a73e8;">Privacy Policy</h2>
+                <span onclick="closePrivacyModal()" style="font-size:28px; cursor:pointer; color:#999;">&times;</span>
+            </div>
+            
+            <div style="font-size:14px; line-height:1.6; color:#555;">
+                <p><strong>Last Updated: February 17, 2026</strong></p>
+                <p>At KIVOSY Labs, we prioritize your privacy. This policy outlines how we handle data:</p>
+                <ul style="padding-left:20px;">
+                    <li><strong>API Keys:</strong> All API keys (Gemini, Groq, etc.) are stored <strong>locally in your browser's storage</strong>. We never transmit or store them on our servers.</li>
+                    <li><strong>Data Transmission:</strong> Your prompts are sent directly to the respective AI providers (Google, Groq, Hugging Face) and are not intercepted by KIVOSY.</li>
+                    <li><strong>Analytics:</strong> We use Google Analytics and AdSense to improve our service and provide relevant content.</li>
+                </ul>
+                <p>By using this site, you agree to the local storage of your configuration keys for functional purposes.</p>
+                    <p><strong>Google AdSense & Cookies:</strong></p>
+                    <ul style="padding-left:20px;">
+                        <li>This website uses Google AdSense to display advertisements.</li>
+                        <li>Google, as a third-party vendor, uses cookies to serve ads on this site.</li>
+                        <li>Google's use of advertising cookies enables it and its partners to serve ads to users based on their visit to this site and/or other sites on the Internet.</li>
+                        <li>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" style="color: #1a73e8;">Google Ad Settings</a>.</li>
+                    </ul>
+            </div>
+
+            <div style="margin-top:30px; text-align:right;">
+                <button onclick="closePrivacyModal()" style="background:#1a73e8; color:white; border:none; padding:10px 25px; border-radius:8px; cursor:pointer; font-weight:bold;">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function openPrivacyModal() { document.getElementById('privacyModal').style.display = 'block'; }
+    function closePrivacyModal() { document.getElementById('privacyModal').style.display = 'none'; }
+    // 모달 바깥 클릭 시 닫기
+    window.onclick = function(event) {
+        let modal = document.getElementById('privacyModal');
+        if (event.target == modal) { modal.style.display = "none"; }
+    }
+    </script>
+
+
+    <div id="termsModal" class="modal" style="display:none; position:fixed; z-index:10000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter: blur(5px);">
+    <div class="modal-content" style="background:#fff; color:#333; margin:5% auto; padding:30px; border-radius:15px; width:90%; max-width:600px; max-height:80vh; overflow-y:auto; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:15px; margin-bottom:20px;">
+            <h2 style="margin:0; font-size:20px; color:#1a73e8;">Terms of Service</h2>
+            <span onclick="closeTermsModal()" style="font-size:28px; cursor:pointer; color:#999;">&times;</span>
+        </div>
+        
+        <div style="font-size:14px; line-height:1.6; color:#555;">
+            <p><strong>Effective Date: February 17, 2026</strong></p>
+            <p>Welcome to KIVOSY Labs. By accessing our website, you agree to the following terms:</p>
+            <ol style="padding-left:20px;">
+                <li><strong>Service Description:</strong> KIVOSY Labs provides an interface to interact with third-party AI models. We do not provide the AI models ourselves; we facilitate the connection using your API keys.</li>
+                <li><strong>User Responsibility:</strong> You are responsible for the security of your own API keys. Any usage costs incurred through your API keys from providers (Google, Groq, etc.) are your sole responsibility.</li>
+                <li><strong>Prohibited Use:</strong> You agree not to use the service for any illegal activities or to generate harmful content that violates the policies of the AI model providers.</li>
+                <li><strong>Disclaimer:</strong> The service is provided "as is" without warranties of any kind. KIVOSY Labs is not liable for any data loss or service interruptions.</li>
+            </ol>
+        </div>
+
+        <div style="margin-top:30px; text-align:right;">
+            <button onclick="closeTermsModal()" style="background:#1a73e8; color:white; border:none; padding:10px 25px; border-radius:8px; cursor:pointer; font-weight:bold;">I Agree</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Terms 모달 열기/닫기 함수
+function openTermsModal() { document.getElementById('termsModal').style.display = 'block'; }
+function closeTermsModal() { document.getElementById('termsModal').style.display = 'none'; }
+
+// 기존 window.onclick 함수에 Terms 모달 닫기 로직 추가
+window.onclick = function(event) {
+    let pModal = document.getElementById('privacyModal');
+    let tModal = document.getElementById('termsModal');
+    if (event.target == pModal) { pModal.style.display = "none"; }
+    if (event.target == tModal) { tModal.style.display = "none"; }
+}
+</script>
 
 </body>
 </html>
