@@ -290,12 +290,9 @@ class KivosyApp {
     }
 }
 
-// Initialize the app when DOM is ready
-const app = new KivosyApp();
 
-document.addEventListener('DOMContentLoaded', () => {
-    app.init();
-});
+const app = new KivosyApp();
+app.init();
 
 // Export for debugging
 window.kivosy = {
@@ -308,4 +305,5 @@ window.kivosy = {
         safeStorage.clear();
         location.reload();
     }
+
 };
