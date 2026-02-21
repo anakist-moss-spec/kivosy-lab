@@ -6,6 +6,19 @@
 const CONFIG_KEY = 'kivosy_ai_config';
 const HISTORY_KEY = 'kivosy_ai_history';
 
+// [이수석의 핵심 처방] 시크릿 모드에서도 앱을 살려내는 안전 로딩 함수
+function loadSafeData(key, defaultValue) {
+    try {
+        const savedData = localStorage.getItem(key);
+        if (!savedData) return defaultValue;
+        return JSON.parse(savedData);
+    } catch (e) {
+        // 시크릿 모드에서 localStorage 접근 에러가 나면 여기로 옵니다!
+        console.warn(`[Storage Warning] 시크릿 모드 감지됨 (${key}). 기본값을 사용합니다.`);
+        return defaultValue; 
+    }
+}
+
 // Default configuration
 const defaultConfig = {
     geminiKey: '',
