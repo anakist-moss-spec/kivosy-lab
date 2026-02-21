@@ -84,7 +84,7 @@
                         <span>Support</span>
                     </a>
 
-                    <div class="byok-badge" onclick="showGuide()">⚙️ API Key Setup</div>
+                    <div class="byok-badge" onclick="uiManager.showGuide()">⚙️ API Key Setup</div>
                 </div>
 
             <!-- API비밀번호 보기이모티콘 -->    
@@ -194,8 +194,8 @@
                         </div>
                         
                         <div class="info-link-area" style="text-align: center; margin-top: 15px;">
-                            <a href="#" onclick="openModal(); return false;" style="font-size: 11px; color: var(--text-secondary); text-decoration: underline;">
-                                🛡️ Is my API Key safe?
+                            <a href="#" onclick="uiManager.openModal(); return false;"> 🛡️ Is my API Key safe? 
+
                             </a>
                         </div>
             </aside>
@@ -497,6 +497,10 @@ window.onclick = function(event) {
     if (event.target == tModal) { tModal.style.display = "none"; }
 }
 </script>
+
+    <script type="module" src="ui.js"></script>
+    <script type="module" src="pdfService.js"></script>
+    <script type="module" src="app.js"></script>
 
 </body>
 </html>

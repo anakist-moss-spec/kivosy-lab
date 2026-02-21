@@ -345,3 +345,14 @@ class UIManager {
 
 export const uiManager = new UIManager();
 window.uiManager = uiManager;
+
+// [KIVOSY 전역 함수 연결 브릿지]
+// HTML의 onclick이 uiManager의 메서드를 직접 찾을 수 있게 연결합니다.
+window.showGuide = () => uiManager.showGuide();
+window.openModal = (id) => uiManager.openModal(id);
+window.closeModal = (id) => uiManager.closeModal(id);
+window.switchTab = (mode, isAuto) => uiManager.switchTab(mode, isAuto);
+window.togglePassword = (id, btn) => uiManager.togglePassword(id, btn);
+window.scrollToModel = (id) => uiManager.scrollToModel(id);
+window.openFeedback = () => uiManager.openFeedback();
+window.closeHistoryModal = () => uiManager.closeHistoryModal();
